@@ -1,0 +1,27 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row products">
+      <div class="col-md-9 col-sm-12 col-xs-12 text-center">
+        <div class="shadow-lg ">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+           <input type="file" name="upload_file" class="form-control" accept=".xlsx, .xls">
+          <br>
+          <button type="submit" class="btn btn-success" >Upload</button>
+        </form>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                        <li class="{{ message.tags }}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+      </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

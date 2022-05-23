@@ -1,0 +1,24 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+  <div class="container">
+    <div class="row products">
+      <div class="col-md-9 col-sm-12 col-xs-12 text-center">
+         <form action="{% url 'hospital:person_forms' %}" method="post">
+            {% csrf_token %}
+            {{ form_person }}
+            <br>
+            {{ form_phone }}
+             <input type="submit" formmethod="POST" value="add" />
+            <select name="phones" size={{ phones_box|length }} multiple>
+            {% for phone in phones_box%}
+                <option value={{ phone }}>{{ phone }}</option>
+            {% endfor %}
+            </select>
+            <br>
+            <input type="submit" name="register" value="register">
+        </form>
+     </div>
+    </div>
+  </div>
+{% endblock %}

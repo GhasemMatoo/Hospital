@@ -1,0 +1,108 @@
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: bold;
+    src: url('../fonts/iranyekan/eot/iranyekanwebbold(fanum).eot');
+    src: url('../fonts/iranyekan/eot/iranyekanwebbold(fanum).eot?#iefix') format('embedded-opentype'),
+        /* IE6-8 */
+        url('../fonts/iranyekan/woff2/iranyekanwebbold(fanum).woff2') format('woff2'),
+        /* FF39+,Chrome36+, Opera24+*/
+        url('../fonts/iranyekan/woff/iranyekanwebbold(fanum).woff') format('woff'),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+        url('../fonts/iranyekan/ttf/iranyekanwebbold(fanum).ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: 300;
+    src: url('../fonts/iranyekan/eot/iranyekanweblight(fanum).eot');
+    src: url('../fonts/iranyekan/eot/iranyekanweblight(fanum).eot?#iefix') format('embedded-opentype'),
+        /* IE6-8 */
+        url('../fonts/iranyekan/woff2/iranyekanweblight(fanum).woff2') format('woff2'),
+        /* FF39+,Chrome36+, Opera24+*/
+        url('../fonts/iranyekan/woff/iranyekanweblight(fanum).woff') format('woff'),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+        url('../fonts/iranyekan/ttf/iranyekanweblight(fanum).ttf') format('truetype');
+}
+
+@font-face {
+    font-family: iranyekan;
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/iranyekan/eot/iranyekanwebregular(fanum).eot');
+    src: url('../fonts/iranyekan/eot/iranyekanwebregular(fanum).eot?#iefix') format('embedded-opentype'),
+        /* IE6-8 */
+        url('../fonts/iranyekan/woff2/iranyekanwebregular(fanum).woff2') format('woff2'),
+        /* FF39+,Chrome36+, Opera24+*/
+        url('../fonts/iranyekan/woff/iranyekanwebregular(fanum).woff') format('woff'),
+        /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
+        url('../fonts/iranyekan/ttf/iranyekanwebregular(fanum).ttf') format('truetype');
+}
+
+
+*{
+    font-family: iranyekan, sans-serif;
+}
+
+nav.navbar-fixed-top{
+    background: #130e0ee0;
+}
+div.services{
+    margin-top: 70px;
+    text-align: center;
+}
+div.services h1{
+text-align: center;
+padding-bottom: 25px;
+margin-bottom: 25px;
+border-bottom: 2px solid blue;
+}
+div.services div img{
+    margin: 10px auto;
+}
+div.products{
+    margin-top: 70px;
+}
+div.products .col-sm-6.col-md-4.col-xs-12{
+    width:100%;
+}
+div.products div h2{
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid blue;
+}
+div.sidebar h2{
+    padding-bottom: 25px;
+margin-bottom: 25px;
+border-bottom: 2px solid blue;
+text-align: center;
+}
+span.badge{
+    float: left;
+}
+div.groups button{
+    text-align: right;
+}
+div.panel-primary{
+    text-align: center;
+    margin-top: 20px;
+}
+div.footer{
+padding-top: 10px;
+padding-bottom: 10px;
+background-color: darkorange;
+color: white;
+font-size: larger;
+}
+div.list-group .active{
+background:rgba(28, 11, 58, 0.776);
+}
+div.list-group .active table{
+    width: 100%;
+    text-align: justify;
+}
+div.list-group table {
+    width: 80%;
+    text-align:left;
+}
