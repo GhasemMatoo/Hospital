@@ -4,6 +4,9 @@ from django.db import models
 
 
 class MainModel(models.Model):
+    """
+    Custom master model
+    """
     created_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
@@ -12,7 +15,7 @@ class MainModel(models.Model):
 
 
 class Person(MainModel):
-
+    
     name = models.CharField(max_length=50, null=True)
     family = models.CharField(max_length=50, null=True)
     national_code = models.CharField(max_length=11, unique=True)
@@ -27,8 +30,8 @@ class Person(MainModel):
 
 class Phone(MainModel):
 
-    phone_number = models.CharField(max_length=11,unique=True)
-    Person = models.ForeignKey('Person', on_delete=models.SET_NULL,blank=True, null=True)
+    phone_number = models.CharField(max_length=11, unique=True)
+    Person = models.ForeignKey('Person', on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.phone_number
