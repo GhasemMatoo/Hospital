@@ -12,17 +12,17 @@ class PersonHomeViews(ListView):
     paginate_by = 2
 
     def get_queryset(self):
-        if len(self.request.GET.get('name') or self.request.GET.get('family')
+        if len(self.request.GET) != 0:
+            if len(self.request.GET.get('name') or self.request.GET.get('family')
                or self.request.GET.get('national_code')) != 0:
-            persons = Person.objects.filter(
-                name__icontains=self.request.GET.get('name'),
-                family__icontains=self.request.GET.get('family'),
-                national_code__icontains=str(self.request.GET.get('national_code'))
-            )
-            return persons
-        else:
-            persons = Person.objects.filter(name='')
-            return persons
+                persons = Person.objects.filter(
+                    name__icontains=self.request.GET.get('name'),
+                    family__icontains=self.request.GET.get('family'),
+                    national_code__icontains=str(self.request.GET.get('national_code'))
+                )
+                return persons
+        persons = Person.objects.filter(name='')
+        return persons
 
 
 class PersonViews(ListView):
