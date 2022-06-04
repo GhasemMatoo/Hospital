@@ -27,8 +27,8 @@ class Person(MainModel):
 
 class Phone(MainModel):
 
-    phone_number = models.CharField(max_length=11,unique=True)
-    Person = models.ForeignKey('Person', on_delete=models.SET_NULL, blank=True, null=True)
+    phone_number = models.CharField(max_length=11, unique=True)
+    Person = models.ForeignKey('Person', on_delete=models.SET_NULL, blank=True, null=True, related_name='Person')
 
     def __str__(self):
         return self.phone_number
