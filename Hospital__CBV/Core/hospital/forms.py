@@ -1,6 +1,10 @@
 from django import forms
 from .models import Person, Phone
 
+'''
+create form model person and phone
+'''
+
 
 class PersonForm(forms.ModelForm):
     class Meta:

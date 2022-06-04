@@ -16,6 +16,9 @@ class PhoneAdmin(admin.ModelAdmin):
     list_filter = ['phone_number']
     search_fields = ['phone_number ']
 
+    '''
+    set admin display in field person_first_name
+    '''
     @admin.display()
     def person_first_name(self, obj):
         return f"{obj.Person.name} {obj.Person.family}==>{obj.Person.national_code}"
