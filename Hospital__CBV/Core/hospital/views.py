@@ -11,16 +11,19 @@ class PersonHomeViews(ListView):
     template_name = 'hospital/index.html'
     paginate_by = 2
 
-    def get(self, request, **kwargs):
-        if len(request.GET) != 0:
-            persons = Person.objects.filter(
-                name__icontains=request.GET.get('name'),
-                family__icontains=request.GET.get('family'),
-                national_code__icontains=str(request.GET.get('national_code'))
-            )
-            context = {'persons': persons}
-            return render(request, self.template_name, context)
-        return render(request, self.template_name)
+    def get_queryset(self):
+        # if self.request.GET:
+        if len(self.request.GET) != 0:
+            if len(self.request.GET.get('name') or self.request.GET.get('family')
+               or self.request.GET.get('national_code')) != 0:
+                persons = Person.objects.filter(
+                    name__icontains=self.request.GET.get('name'),
+                    family__icontains=self.request.GET.get('family'),
+                    national_code__icontains=str(self.request.GET.get('national_code'))
+                )
+                return persons
+        persons = Person.objects.filter(name='')
+        return persons
 
 
 class PersonViews(ListView):
@@ -42,32 +45,33 @@ class PersonDetailViews(DetailView):
     slug_url_kwarg = 'national_code'
 
     def post(self, request, **kwargs):
-        post_request = request.POST
-        if 'add_phone' in post_request:
+        if 'add_phone' in request.POST:
             person = Person.objects.get(national_code=str(request.path).split("/")[3])
-            new_phone = post_request['new_phone']
-            if not Phone.objects.filter(phone_number=new_phone):
-                Phone.objects.get_or_create(phone_number=new_phone, Person=person)
-                return self.get(request, **kwargs)
-        if 'register' in post_request:
+            if not Phone.objects.filter(phone_number=request.POST['new_phone']):
+                Phone.objects.get_or_create(phone_number=request.POST['new_phone'], Person=person)
+        return self.get(request, **kwargs)
+
+    def post(self, request, **kwargs):
+        if 'register' in request.POST:
             person = Person.objects.get(national_code=str(request.path).split("/")[3])
             person.name = request.POST['name']
             person.family = request.POST['family']
             person.id_number = request.POST['id_number']
             person.birth_date = request.POST['birth_date']
-            if not Person.objects.filter(national_code=post_request['national_code']):
+            if not Person.objects.filter(national_code=request.POST['national_code']):
                 person.national_code = request.POST['national_code']
             person.save()
-            person = Person.objects.get(national_code=post_request['national_code'])
-            phones_box = Phone.objects.filter(Person_id=person.id)
-            request_phone_list = request.POST.getlist('phone')
+            person = Person.objects.get(national_code=request.POST['national_code'])
+            phones_boox = set(Phone.objects.filter(Person_id=person.id).values_list('phone_number', flat=True))
+            request_phone_list = set(request.POST.getlist('phone'))
+            phones_box = phones_boox.difference(request_phone_list)
+            request_phone_list = request_phone_list.difference(phones_boox)
             # fixme: must be refactor
-            for tel in range(len(request_phone_list)):
-                if len(phones_box) > tel:
-                    if not str(phones_box[tel]) == request_phone_list[tel]:
-                        print(phones_box[tel], "==", request_phone_list[tel])
-                        phones_box[tel].phone_number = request_phone_list[tel]
-                        phones_box[tel].save()
+            for tel in range(len(phones_box)):
+                phones = Phone.objects.get(phone_number=list(phones_box)[tel])
+                phones.phone_number = list(request_phone_list)[tel]
+                phones.save()
+
             return self.get(request, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -108,9 +112,9 @@ class PersonFormViews(ListView):
                     with transaction.atomic():
                         person.save()
                         for phone in request_list:
-                            print(phone)
                             if not Phone.objects.filter(phone_number=phone):
                                 Phone.objects.get_or_create(phone_number=phone, Person=person)
+                return redirect('/person/forms/')
             context = {'form_person': form_person, 'form_phone': form_phone, 'phones_box': phones_box}
             return render(request, self.template_name, context)
 
