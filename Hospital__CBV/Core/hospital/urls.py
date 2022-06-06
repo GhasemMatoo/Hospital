@@ -9,6 +9,6 @@ urlpatterns = [
     path('person/detail/<slug:national_code>', PersonDetailViews.as_view(), name="person_detail"),
     path('person/delete/<slug:national_code>', PersonDeleteViews.as_view(), name="person_delete"),
     path('person/forms/', PersonFormViews.as_view(), name="person_forms"),
-    path('api/v1/', include('hospital.api.v1.urls'))
-
+    path('api/v1/', include('hospital.api.v1.urls')),
+    path('api/v2/', include('hospital.api.v2.urls')),
 ]
