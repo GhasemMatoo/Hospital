@@ -6,7 +6,6 @@ from .serializers import PersonSerializer
 from hospital.models import Person, Phone
 from django.shortcuts import get_list_or_404
 
-
 class PersonList(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = PersonSerializer
