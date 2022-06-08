@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import PersonList, PersonDetail
+from .views import PersonListModelViewSet
+from rest_framework.routers import DefaultRouter
 
 app_name = 'api-v2'
-
-urlpatterns = [
-    path('person/', PersonList.as_view(), name='person'),
-    path('person/<int:national_code>', PersonDetail.as_view(), name='person_detail'),
-]
+router = DefaultRouter()
+router.register('person', PersonListModelViewSet, basename='person')
+urlpatterns = router.urls
