@@ -3,13 +3,14 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from .serializers import PersonSerializer
 from hospital.models import Person, Phone
+from .permissions import IsOwnerOrReadOnly
 
 
 class PersonListModelViewSet(viewsets.ModelViewSet):
     """
     Show list person and phones and Create Person and phone
     """
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     serializer_class = PersonSerializer
     queryset = Person.objects.all()
     lookup_field = "national_code"

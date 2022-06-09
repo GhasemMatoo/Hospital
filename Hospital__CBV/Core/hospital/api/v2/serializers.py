@@ -10,10 +10,24 @@ class PhoneSerializer(serializers.ModelSerializer):
 
 class PersonSerializer(serializers.ModelSerializer):
     phones = PhoneSerializer(source='Person', many=True, read_only=True)
+    absolute_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Person
-        fields = ['id', 'name', 'family', 'national_code', 'id_number', 'birth_date', 'phones']
+        fields = ['id', 'absolute_url', 'name', 'family', 'national_code', 'id_number', 'birth_date', 'phones']
+
+    def get_absolute_url(self, obj):
+        # Create urls py object
+       URL = self.context.get('request').build_absolute_uri(obj.national_code)
+       return URL
+
+    def to_representation(self, instance):
+        # Cut in absolute_url to Show on object
+        request = self.context.get('request')
+        representation = super().to_representation(instance)
+        if request.parser_context.get('kwargs'):
+            representation.pop('absolute_url')
+        return representation
 
     def create(self, validated_data):
         person_instance = Person.objects.create(**validated_data)
