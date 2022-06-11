@@ -1,9 +1,18 @@
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from .serializers import PersonSerializer
 from hospital.models import Person, Phone
 from .permissions import IsOwnerOrReadOnly
+
+
+class StandardSetPagination(PageNumberPagination):
+    page_size = 2
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
 
 
 class PersonListModelViewSet(viewsets.ModelViewSet):
@@ -14,6 +23,11 @@ class PersonListModelViewSet(viewsets.ModelViewSet):
     serializer_class = PersonSerializer
     queryset = Person.objects.all()
     lookup_field = "national_code"
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields =['name', 'family', 'national_code']
+    search_fields = ['name', 'family', 'national_code']
+    ordering_fields = ['created_date']
+    pagination_class = StandardSetPagination
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
