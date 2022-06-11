@@ -1,18 +1,18 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User,Profile
+from .models import User, Profile
 # Register your models here.
 
 
 class CustomUserAdmin(UserAdmin):
     model = User
-    list_display = ('email', 'is_superuser', 'is_active',)
-    list_filter = ('email', 'is_superuser', 'is_active',)
+    list_display = ('email', 'is_superuser', 'is_active', 'is_staff')
+    list_filter = ('email', 'is_superuser', 'is_active', 'is_staff')
     search_fields = ('email',)
     ordering = ('email',)
     fieldsets = (
         ('Authentication', {'fields': ('email', 'password')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active','is_superuser',
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser',
                                     'groups', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login',)}),
     )
