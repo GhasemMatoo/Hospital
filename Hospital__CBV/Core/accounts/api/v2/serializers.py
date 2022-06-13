@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import  TokenObtainPairSerializer
 from accounts.models import User
 from django.core import exceptions
 from django.contrib.auth import authenticate
@@ -63,3 +64,11 @@ class CustomAuthTokenSerializer(serializers.Serializer):
 
         attrs['user'] = user
         return attrs
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        validate_data = super().validate(attrs)
+        validate_data['User_email'] = self.user.email
+        validate_data['User_id'] = self.user.id
+        return validate_data

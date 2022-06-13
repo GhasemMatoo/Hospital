@@ -5,3 +5,4 @@ sqlparse
 djangorestframework
 django-filter
 coreapi
+djangorestframework-simplejwt
