@@ -66,6 +66,8 @@ class CustomAuthTokenSerializer(serializers.Serializer):
             if not user:
                 msg = _('Unable to log in with provided credentials.')
                 raise serializers.ValidationError(msg, code='authorization')
+            if not user.is_verified:
+                raise serializers.ValidationError({'detail': 'User is not Active.'})
         else:
             msg = _('Must include "username" and "password".')
             raise serializers.ValidationError(msg, code='authorization')
@@ -77,6 +79,8 @@ class CustomAuthTokenSerializer(serializers.Serializer):
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         validate_data = super().validate(attrs)
+        if not self.user.is_verified:
+            raise serializers.ValidationError({'detail': 'User is not Active.'})
         validate_data['User_email'] = self.user.email
         validate_data['User_id'] = self.user.id
         return validate_data
@@ -94,4 +98,19 @@ class ChangePasswordSerializer(serializers.Serializer):
             validate_password(attrs.get('new_password'))
         except exceptions.ValidationError as e:
             raise serializers.ValidationError({'new_password': list(e.messages)})
+        return super().validate(attrs)
+
+
+class ResendActivationSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        try:
+            user_obj = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({'detail': 'User DoesNotExist .'})
+        if user_obj.is_active:
+            raise serializers.ValidationError({'detail': 'User is active .'})
+        attrs['user'] = user_obj
         return super().validate(attrs)
