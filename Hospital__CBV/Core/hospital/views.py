@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
+from django.views import View
+from django.contrib import messages
 from .models import Person, Phone
 from .forms import PersonForm, PhoneForm
 from django.db import transaction
+import pandas as pd
 # Create your views here.
 
 
@@ -30,7 +33,7 @@ class PersonViews(ListView):
 
     context_object_name = 'persons'
     template_name = 'hospital/person.html'
-    paginate_by = 2
+    paginate_by = 15
 
     def get_queryset(self):
         person = Person.objects.all().order_by("-update_date")
@@ -123,3 +126,28 @@ class PersonFormViews(ListView):
         form_phone = PhoneForm()
         context = {'form_person': form_person, 'form_phone': form_phone}
         return render(request, self.template_name, context)
+
+
+class PersonUploadExcelViews(View):
+    template_name = 'hospital/upload_excel.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+    def post(self, request, **kwargs):
+        data_excel = (request.FILES["upload_file"])
+        df = pd.read_excel(data_excel)
+        standard_nan_row = df
+        if 'NATIONAL_CODE' in df.columns:
+            for i in range(len(standard_nan_row)):
+                name = standard_nan_row.loc[i]['FIRST_NAME']
+                family = standard_nan_row.loc[i]['LAST_NAME']
+                national_code = standard_nan_row.loc[i]['NATIONAL_CODE']
+                birth_date = standard_nan_row.loc[i]['BIRTH_DATE'].replace(" 00:00:00", "")
+                if not national_code == '-':
+                    if not Person.objects.filter(national_code=national_code):
+                        Person.objects.get_or_create(name=name, family=family, national_code=national_code,
+                                                     birth_date=birth_date)
+        else:
+            messages.add_message(request, messages.WARNING, 'invalid excl file.')
+        return render(request, self.template_name)
