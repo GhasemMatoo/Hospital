@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
 from .models import Person, Phone
@@ -40,7 +41,7 @@ class PersonViews(ListView):
         return person
 
 
-class PersonDetailViews(DetailView):
+class PersonDetailViews(LoginRequiredMixin, DetailView):
 
     template_name = 'hospital/update_person.html'
     model = Person
