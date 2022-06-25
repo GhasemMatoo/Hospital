@@ -139,16 +139,18 @@ class PersonUploadExcelViews(View):
         data_excel = (request.FILES["upload_file"])
         df = pd.read_excel(data_excel)
         standard_nan_row = df
+        person_list = []
         if 'NATIONAL_CODE' in df.columns:
             for i in range(len(standard_nan_row)):
                 name = standard_nan_row.loc[i]['FIRST_NAME']
                 family = standard_nan_row.loc[i]['LAST_NAME']
                 national_code = standard_nan_row.loc[i]['NATIONAL_CODE']
                 birth_date = standard_nan_row.loc[i]['BIRTH_DATE'].replace(" 00:00:00", "")
-                if not national_code == '-':
-                    if not Person.objects.filter(national_code=national_code):
-                        Person.objects.get_or_create(name=name, family=family, national_code=national_code,
-                                                     birth_date=birth_date)
+                if not national_code == '-' and national_code.isnumeric():
+                     if not Person.objects.filter(national_code=national_code):
+                        person = Person(name=name, family=family, national_code=national_code, birth_date=birth_date)
+                        person_list.append(person)
+            Person.objects.bulk_create(person_list)
         else:
             messages.add_message(request, messages.WARNING, 'invalid excl file.')
         return render(request, self.template_name)
