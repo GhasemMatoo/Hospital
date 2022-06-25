@@ -19,7 +19,6 @@ class Person(MainModel):
     id_number = models.CharField(max_length=30, null=True, blank=True)
     birth_date = models.DateField()
     region = models.ForeignKey('State', on_delete=models.CASCADE, null=True, blank=True)
-    file_patient = models.ForeignKey('PatientStatus', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} {self.family}"
@@ -40,6 +39,8 @@ class PatientStatus(MainModel):
     franchise = models.IntegerField(default=0)
     hosp_time = models.DateTimeField(auto_now=True)
     clearance_time = models.DateTimeField(null=True)
+    Person = models.ForeignKey('Person', on_delete=models.CASCADE,
+                               blank=True, null=True, related_name='Person_PatientStatus')
 
     def __str__(self):
         return self.type_disease
