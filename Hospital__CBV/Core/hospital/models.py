@@ -34,7 +34,8 @@ class Phone(MainModel):
 
 
 class PatientStatus(MainModel):
-    type_disease = models.CharField(max_length=100, null=True)
+    doctor_name = models.CharField(max_length=100, null=True)
+    type_disease = models.TextField(null=True)
     invoice = models.IntegerField(default=0)
     franchise = models.IntegerField(default=0)
     hosp_time = models.DateTimeField(auto_now=True)
