@@ -3,9 +3,10 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from django.contrib import messages
-from .models import Person, Phone
+from .models import Person, Phone, PatientStatus
 from .forms import PersonForm, PhoneForm
 from django.db import transaction
+from itertools import chain
 import pandas as pd
 # Create your views here.
 
@@ -13,21 +14,28 @@ import pandas as pd
 class PersonHomeViews(ListView):
     context_object_name = 'persons'
     template_name = 'hospital/index.html'
-    paginate_by = 2
+    paginate_by = 15
 
     def get_queryset(self):
         # if self.request.GET:
         if len(self.request.GET) != 0:
-            if len(self.request.GET.get('name') or self.request.GET.get('family')
-               or self.request.GET.get('national_code')) != 0:
-                persons = Person.objects.filter(
-                    name__icontains=self.request.GET.get('name'),
-                    family__icontains=self.request.GET.get('family'),
-                    national_code__icontains=str(self.request.GET.get('national_code'))
+            if self.request.GET.get('PatientStatus_id') or self.request.GET.get('doctor_name') or\
+                    self.request.GET.get('type_disease') or self.request.GET.get('hosp_time') or \
+                    self.request.GET.get('name') or self.request.GET.get('family') or\
+                    self.request.GET.get('national_code') != '':
+                patient = PatientStatus.objects.filter(
+                    Person__name__icontains=self.request.GET.get('name'),
+                    Person__family__icontains=self.request.GET.get('family'),
+                    Person__national_code__icontains=str(self.request.GET.get('national_code')),
+                    id__icontains=self.request.GET.get('PatientStatus_id'),
+                    doctor_name__icontains=self.request.GET.get('doctor_name'),
+                    hosp_time__icontains=self.request.GET.get('hosp_time'),
+                    type_disease__icontains=str(self.request.GET.get('type_disease'))
                 )
-                return persons
-        persons = Person.objects.filter(name='')
-        return persons
+                return patient
+
+        fields = Person.objects.filter(name='')
+        return fields
 
 
 class PersonViews(ListView):
@@ -53,10 +61,9 @@ class PersonDetailViews(LoginRequiredMixin, DetailView):
             person = Person.objects.get(national_code=str(request.path).split("/")[3])
             if not Phone.objects.filter(phone_number=request.POST['new_phone']):
                 Phone.objects.get_or_create(phone_number=request.POST['new_phone'], Person=person)
-        return self.get(request, **kwargs)
+            return self.get(request, **kwargs)
 
-    def post(self, request, **kwargs):
-        if 'register' in request.POST:
+        elif 'register' in request.POST:
             person = Person.objects.get(national_code=str(request.path).split("/")[3])
             person.name = request.POST['name']
             person.family = request.POST['family']
@@ -81,6 +88,7 @@ class PersonDetailViews(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['phones_box'] = Phone.objects.filter(Person_id=kwargs.get('object').id)
+        context['patient_status'] = PatientStatus.objects.filter(Person_id=kwargs.get('object').id)
         return context
 
 
@@ -154,3 +162,15 @@ class PersonUploadExcelViews(View):
         else:
             messages.add_message(request, messages.WARNING, 'invalid excl file.')
         return render(request, self.template_name)
+
+
+class PatientStatusDetailViews(LoginRequiredMixin, DetailView):
+
+    template_name = 'hospital/update_patient.html'
+    model = PatientStatus
+    pk_url_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['Patient'] = PatientStatus.objects.filter(Person_id=kwargs.get('object').id)
+        return context

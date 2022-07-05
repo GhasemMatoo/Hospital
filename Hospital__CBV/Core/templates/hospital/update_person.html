@@ -81,9 +81,34 @@
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="col-md-1 control-label">پرونده</label>
+                                    <label class="col-md-1 control-label">پروندها</label>
                                     <div class="col-md-11">
-                                        <textarea class="form-control" name="file_patient "  rows="6"></textarea>
+                                        <div class="list-group">
+                                              <a href="#" class="list-group-item active">
+                                                <table>
+                                                  <tr style="text-align: unset;">
+                                                    <td>کدپرونده</td>
+                                                    <td>نام دکتر</td>
+                                                    <td>علت بیماری</td>
+                                                    <td>تاریخ پذیرش</td>
+                                                    <td>نمایش پرونده</td>
+
+                                                  </tr>
+                                                </table>
+                                             {% for Patient in patient_status %}
+                                              <a  class="list-group-item">
+                                                <table>
+                                                    <tr style="text-align: -webkit-auto ;">
+                                                    <td>{{ Patient.id }}</td>
+                                                    <td>{{ Patient.doctor_name }}</td>
+                                                    <td>{{ Patient.type_disease|truncatechars:140 }}</td>
+                                                    <td>{{ Patient.hosp_time|date:"d/m/Y" }}</td>
+                                                    <td><a href="{% url 'hospital:patient_detail' pk=Patient.id %}" > <i class="glyphicon glyphicon-eye-open"></i> </a></td>
+                                                  </tr>
+                                                </table>
+                                              </a>
+                                           {% endfor %}
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -192,6 +217,4 @@
               </form>
           </div>
         </div>
-    <!-- end my modal -->
-
 {% endblock %}

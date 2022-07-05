@@ -4,8 +4,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status, viewsets
-from .serializers import PersonSerializer
-from hospital.models import Person, Phone
+from .serializers import PersonSerializer, PatientStatusSerializer
+from hospital.models import Person, Phone, PatientStatus
 from .permissions import IsOwnerOrReadOnly
 
 
@@ -24,7 +24,7 @@ class PersonListModelViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     lookup_field = "national_code"
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields =['name', 'family', 'national_code']
+    filterset_fields = ['name', 'family', 'national_code']
     search_fields = ['name', 'family', 'national_code']
     ordering_fields = ['created_date']
     pagination_class = StandardSetPagination
@@ -36,3 +36,16 @@ class PersonListModelViewSet(viewsets.ModelViewSet):
         for phone in Phone.objects.filter(Person=instance.id):
             phone.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class PatientStatusListModelViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    serializer_class = PatientStatusSerializer
+    queryset = PatientStatus.objects.all()
+    lookup_field = 'pk'
+    ordering_fields = ['created_date']
+    pagination_class = StandardSetPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['doctor_name', 'invoice', 'clearance_time',
+                        'Person__name', 'Person__family', 'Person__id_number',
+                        'Person__national_code']

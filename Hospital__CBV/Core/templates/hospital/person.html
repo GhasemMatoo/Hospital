@@ -21,13 +21,15 @@
           {% for person in persons %}
           <a  class="list-group-item">
             <table>
-                <tr style="text-align: unset;">
+                <tr style="text-align: -webkit-auto ;">
                 <td>{{ person.id }}</td>
                 <td>{{ person.name }} {{ person.family }}</td>
                 <td>{{ person.national_code }}</td>
                 <td>{{ person.update_date|date:"d/m/Y" }}</td>
-                <td><a href ='{% url 'hospital:person_detail' national_code=person.national_code  %}'> <i class="glyphicon glyphicon-pencil"></i> </a></td>
-                <td><a href ='{% url 'hospital:person_delete' national_code=person.national_code  %}'> <i class="glyphicon glyphicon-trash"></i> </a></td>
+                <td><a href ='{% url 'hospital:person_detail' national_code=person.national_code  %}'>
+                    <i class="glyphicon glyphicon-pencil"></i> </a></td>
+                <td><a href ='{% url 'hospital:person_delete' national_code=person.national_code  %}'>
+                    <i class="glyphicon glyphicon-trash"></i> </a></td>
               </tr>
             </table>
           </a>

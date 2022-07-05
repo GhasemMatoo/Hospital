@@ -10,11 +10,15 @@
             <input type="text" class="form-control" name="name" placeholder="نام">
             <input type="text" class="form-control" name="family" placeholder="نام خانوادگی">
             <input type="text" class="form-control" name="national_code" placeholder="کد ملی">
+            <input type="text" class="form-control" name="PatientStatus_id" placeholder="شماره پرونده">
+            <input type="text" class="form-control" name="doctor_name" placeholder="نام دکتر">
+            <input type="text" class="form-control" name="type_disease" placeholder="علت بیماری">
+            <input type="date" class="form-control" name="hosp_time" placeholder="تاریخ بستری">
           </div>
           <button type="submit" class="btn btn-default" value="search">جستجو</button>
         </form>
       <div class="col-sm-6 col-md-4 col-xs-12">
-        <div class="list-group">
+          <div class="list-group">
       {% if persons %}
           <a href="#" class="list-group-item active">
             <table>
@@ -29,14 +33,28 @@
             </table>
           {% for person in persons %}
           <a  class="list-group-item">
-            <table>
-                <tr style="text-align: unset;">
+          <table>
+                <tr>
+                {% if not person.national_code %}
+                <td>{{ person.Person.id }}</td>
+                <td>{{ person.Person.name }} {{ person.Person.family }}</td>
+                <td>{{ person.Person.national_code }}</td>
+                <td>{{ person.Person.update_date|date:"d/m/Y" }}</td>
+                <td><a href ='{% url 'hospital:person_detail' national_code=person.Person.national_code  %}'>
+                    <i class="glyphicon glyphicon-pencil"></i> </a></td>
+                <td><a href ='{% url 'hospital:person_delete' national_code=person.Person.national_code  %}'>
+                    <i class="glyphicon glyphicon-trash"></i> </a></td>
+                {% elif person.national_code %}
+
                 <td>{{ person.id }}</td>
                 <td>{{ person.name }} {{ person.family }}</td>
                 <td>{{ person.national_code }}</td>
                 <td>{{ person.update_date|date:"d/m/Y" }}</td>
-                <td><a href ='{% url 'hospital:person_detail' national_code=person.national_code  %}'> <i class="glyphicon glyphicon-pencil"></i> </a></td>
-                <td><a href ='{% url 'hospital:person_delete' national_code=person.national_code  %}'> <i class="glyphicon glyphicon-trash"></i> </a></td>
+                <td><a href ='{% url 'hospital:person_detail' national_code=person.national_code  %}'>
+                    <i class="glyphicon glyphicon-pencil"></i> </a></td>
+                <td><a href ='{% url 'hospital:person_delete' national_code=person.national_code  %}'>
+                    <i class="glyphicon glyphicon-trash"></i> </a></td>
+                {% endif %}
               </tr>
             </table>
           </a>
