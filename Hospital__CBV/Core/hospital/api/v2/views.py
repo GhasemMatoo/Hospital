@@ -1,12 +1,13 @@
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import status, viewsets
-from .serializers import PersonSerializer, PatientStatusSerializer
-from hospital.models import Person, Phone, PatientStatus
+from .serializers import PersonSerializer, PatientStatusSerializer, StateSerializer
+from hospital.models import Person, Phone, PatientStatus ,State
 from .permissions import IsOwnerOrReadOnly
+from .Filter import PersonFilter, PatientStatusFilter
 
 
 class StandardSetPagination(PageNumberPagination):
@@ -24,7 +25,7 @@ class PersonListModelViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     lookup_field = "national_code"
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['name', 'family', 'national_code']
+    filterset_class = PersonFilter
     search_fields = ['name', 'family', 'national_code']
     ordering_fields = ['created_date']
     pagination_class = StandardSetPagination
@@ -46,6 +47,11 @@ class PatientStatusListModelViewSet(viewsets.ModelViewSet):
     ordering_fields = ['created_date']
     pagination_class = StandardSetPagination
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['doctor_name', 'invoice', 'clearance_time',
-                        'Person__name', 'Person__family', 'Person__id_number',
-                        'Person__national_code']
+    filterset_class = PatientStatusFilter
+
+
+class RegionListModelViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    serializer_class = StateSerializer
+    queryset = State.objects.all()
+    lookup_field = 'pk'

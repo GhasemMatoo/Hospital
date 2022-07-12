@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <h1 class="navbar-brand">persons</h1>
+      </div>
+  
+    </div><!-- /.container-fluid -->
+    </nav>
+    <div class="col-md-3 col-sm-12 col-xs-12 ">
+        <div class="bs-example" data-example-id="panel-with-heading">
+            <div  id="person-wrapper"class="panel panel-default">
+                <ul class="nav nav-pills nav-stacked">
+                    <li role="presentation" class="active"><a>All Filter <div class="btn-group btn-group-xs" role="group" aria-label="Extra-small button group">
+                        <button id="Filter" type="button" class="btn btn-danger dropdown-toggle "style="padding-right: 7px;margin-left: 100px;">
+                            <span class="glyphicon glyphicon-filter" aria-hidden="true"></span>
+                        </button>
+                      </div></a></li>
+                </ul>
+                <div class="panel panel-default">
+                    <div id="person" class="panel-heading">Person Panel Filter </div>
+                    <div id="F_person" class="panel-body">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">Name</span>
+                            <input id="F_name"type="text" class="form-control" placeholder="Name" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">Family</span>
+                            <input id="F_family" type="text" class="form-control" placeholder="Family" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">National</span>
+                            <input id="F_national_code"type="text" class="form-control" placeholder="National_code" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">IDnumber</span>
+                            <input id="F_id_number"type="text" class="form-control" placeholder="ID_number" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">Birthdate</span>
+                            <input id="F_birth_date"type="date" class="form-control" placeholder="Birth_date" aria-describedby="sizing-addon3">
+                        </div>
+                        <label for="id_Person__region__state">Person region state:</label>
+                        <select id="Person_region_state" style= 'width: 90%'>
+                            <option value="">---------</option>
+                          </select>
+                          <label id="id_Person__region__state">Person region City:</label>
+                          <select id="Person_region_City" style= 'width: 90%'>
+                            <option value=""></option>
+                          </select>
+                    </div>
+                </div> 
+                <div class="panel panel-default">
+                    <div id="patientStatus"class="panel-heading">PatientStatus Panel Filter </div>
+                    <div id="F_patient" class="panel-body">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">doctor</span>
+                            <input id="doctor_name"type="text" class="form-control" placeholder="doctor_name" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">Disease</span>
+                            <input id="disease"type="text" class="form-control" placeholder="Type_disease" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">Invoice</span>
+                            <input id="Invoice"type="text" class="form-control" placeholder="Invoice" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">Franchise</span>
+                            <input id="Franchise"type="text" class="form-control" placeholder="Franchise" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">Hosp_time</span>
+                            <input id="hosp_time_after"type="date" class="form-control" aria-describedby="sizing-addon3">
+                        </div>
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">Hosp_time</span>
+                            <input id="hosp_time_before"type="date" class="form-control"  aria-describedby="sizing-addon3">
+                        </div>
+                    </div>
+                </div> 
+                <div class="panel panel-default">
+                    <div id="data" class="panel-heading">DATE Panel Filter </div>
+                        <div id="F_data_1" class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">created_date</span>
+                            <input id="data_1" type="date" class="form-control" placeholder="created_date" aria-describedby="sizing-addon3">
+                        </div>
+                        <div id="F_data_2"class="input-group input-group-sm">
+                            <span class="input-group-addon" id="sizing-addon3">update_date </span>
+                            <input id="data_2" type="date" class="form-control" placeholder="update_date " aria-describedby="sizing-addon3">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 col-sm-12 col-xs-12 ">
+        <div class="bs-example" data-example-id="panel-with-heading">
+            <div  id="person-wrapper"class="panel panel-default">
+            <div id="1">
+                
+            </div>
+            <div id="2">
+                
+            </div>
+        </div>
+        <button id= 'Previous' type="button" class="btn btn-primary">Previous Page </button>
+        <button id= 'Next' type="button" class="btn btn-primary">Next Page </button>
+        <!-- my modal -->
+        <div class="modal fade" id= 'modal_person' tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">Person</h4>
+                </div>
+                <div class="modal-body" id="modal_person_form">
+                <p></p>
+                </div>
+                <div class="modal-footer">
+                <button id= "Close" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id= "Delete" type="button" class="btn btn-primary ">Delete Person</button>
+                </div>
+            </div>
+        </div>
+    </div>
+      <!-- End modal -->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+    <script>
+        var F_dictionary = {};
+        $(document).ready(function(){
+            $("#F_person").hide(1000);
+            $("#F_patient").hide(1000);
+            $("#F_data_1").hide(1000);
+            $("#F_data_2").hide(1000);
+            $("#id_Person__region__state").hide();
+            $("#Person_region_City").hide();
+            $("#person").click(function(){
+                $("#F_person").toggle(1000);
+            });
+            $("#patientStatus").click(function(){
+                $("#F_patient").toggle(1000);
+            });
+            $("#data").click(function(){
+                $("#F_data_1").toggle(1000);
+                $("#F_data_2").toggle(1000);
+            });
+            $("#Filter").click(function(){
+                F_dictionary["Person__name"] = $("#F_name").val();
+                F_dictionary["Person__family"] = $("#F_family").val();
+                F_dictionary["Person__national_code"] = $("#F_national_code").val();
+                F_dictionary["Person__id_number"] = $("#F_id_number").val();
+                F_dictionary["Person__birth_date"] = $("#F_birth_date").val();
+                F_dictionary["doctor_name"] = $("#doctor_name").val();
+                //F_dictionary["disease"] = $("#disease").val();
+                F_dictionary["invoice"] = $("#Invoice").val();
+                //F_dictionary["Franchise"] = $("#Franchise").val();
+                F_dictionary["hosp_time_after"] = $("#hosp_time_after").val();
+                F_dictionary["hosp_time_before"] = $("#hosp_time_before").val();
+                F_dictionary["created_date"] = $("#data_1").val();
+                F_dictionary["update_date"] = $("#data_2").val();
+                console.log(F_dictionary);  
+            });
+            $("#Person_region_state").click(function(){
+                url = "http://127.0.0.1:8000/api/v2/region/";
+                $.get(url,  // url
+                function (data, textStatus, jqXHR) {
+                    state = data
+                    $('#Person_region_state').region_state(state);
+                });
+            })
+        });
+        $('#Filter').click(function(){
+            url = 'http://127.0.0.1:8000/api/v2/patient/?';
+            console.log(url+$.param(F_dictionary));
+            previous = ''
+            $.get(url+$.param(F_dictionary),  // url
+                function (data, textStatus, jqXHR) {
+                    person_0 = data.results[0]
+                    person_1 = data.results[1]
+                    $('#1').form_person_0(person_0);
+                    $('#2').form_person_1(person_1);
+                    previous=url
+                    url=data.next
+                });
+                $("#Next").click(function(){
+                    $('#1').empty();
+                    $('#2').empty();
+               $.get(url,  // url
+                    function (data, textStatus, jqXHR) {
+                        person_0 = data.results[0]
+                        person_1 = data.results[1]
+                        $('#1').form_person_0(person_0);
+                        $('#2').form_person_1(person_1);
+                        url=data.next
+                        if (data.previous){
+                            previous=data.previous
+                        }
+                        
+                    });
+                });
+                $("#Previous").click(function(){
+                    $('#1').empty();
+                    $('#2').empty();
+               $.get(previous,  // url
+            function (data, textStatus, jqXHR) {
+                person_0 = data.results[0]
+                person_1 = data.results[1]
+                $('#1').form_person_0(person_0);
+                $('#2').form_person_1(person_1);
+                if (data.previous ){
+                    previous=data.previous
+                    
+                }else{$("Previous").remove();}
+                if (data.next){
+                    url=data.next
+                }
+            });
+              });
+        });
+              $.fn.form_person_0 = function(person_0) {
+                this.html(`<div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">peson : ${person_0.Persons.id}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Table -->
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>National_code</th>
+                              <th>birth_date</th>
+                              <th>Edit</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>${person_0.Persons.name}</td>
+                              <td>${person_0.Persons.family}</td>
+                              <td>${person_0.Persons.national_code}</td>
+                              <td>${person_0.Persons.birth_date}</td>
+                              <td id = 'ed0'><a data-toggle="modal" data-target="#modal_person" class="t" > <i class="glyphicon glyphicon-pencil"></i> </a></td>
+                              <td id = 'test0'><a data-toggle="modal" data-target="#modal_person" class="t" > <i class="glyphicon glyphicon-trash"></i> </a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                  </div>`);
+                  $("#test0").click(function(){ 
+                    $("p").html(`<p>How shod Delete person : ${person_0.Persons.name} ${person_0.Persons.family}</p>`);
+                    $("#Delete").click(function(){
+                        $.ajax({
+                            url: `${person_0.Persons.absolute_url}`,
+                            type: 'DELETE',
+                            success: function (result) {
+                                // Do something with the result
+                                $("p").html(`<p>person Delete success</p>`);
+                            }
+                        });
+                    });
+                    $("#Close").click(function(){
+                        window.location.reload(true);
+                    });
+                });
+                $("#ed0").click(function(){
+                    $('#modal_person_form').form_person_modal0(person_0);
+                    $("#Delete").hide();
+                });
+                return this;
+              }
+              $.fn.form_person_modal0 = function(person_0){
+                  this.html(`<div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Name</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="name" type="text" value="${person_0.Persons.name}" maxlength="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Family</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="family"  type="text" value="${person_0.Persons.family}" maxlength="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">National_code</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="national_code"  type="text" value="${person_0.Persons.national_code}" maxlength="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">ID_number</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="id_number"  type="text" value="${person_0.Persons.id_number}" maxlength="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"> Birth_date</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="birth_date"  type="date" value="${person_0.Persons.birth_date}" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id= "save" type="button" class="btn btn-primary pull-right " style="margin: 30px;">Save Person</button>
+                `);
+                var dictionary = {};
+                $("#save").click(function(){
+                    dictionary["name"] = $("#name").val();
+                    dictionary["family"] = $("#family").val();
+                    dictionary["national_code"] = $("#national_code").val();
+                    dictionary["id_number"] = $("#id_number").val();
+                    dictionary["birth_date"] = $("#birth_date").val();
+                    dictionary["phones"] = '';
+                    $.ajax({
+                        url: person_0.absolute_url+'/',
+                        type: 'PATCH',
+                        data:dictionary,
+                        success: function (result) {
+                            // Do something with the result
+                            $("p").html(`<p>person Edit success</p>`);
+                        }
+                    });
+                });
+                return this;
+              }
+              $.fn.form_person_1 = function(person_1) {
+                this.html(`<div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">peson : ${person_1.Persons.id}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <!-- Table -->
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>National_code</th>
+                              <th>birth_date</th>
+                              <th>Edit</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>${person_1.Persons.name}</td>
+                              <td>${person_1.Persons.family}</td>
+                              <td>${person_1.Persons.national_code}</td>
+                              <td>${person_1.Persons.birth_date}</td>
+                              <td id = 'ed1'><a data-toggle="modal" data-target="#modal_person" class="t" > <i class="glyphicon glyphicon-pencil"></i> </a></td>
+                              <td id = 'test1'><a data-toggle="modal" data-target="#modal_person" class="t" > <i class="glyphicon glyphicon-trash"></i> </a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                  </div>`);
+                  $("#test1").click(function(){
+                    $("p").html(`<p>How shod Delete person : ${person_1.Persons.name} ${person_1.Persons.family}</p>`);
+                    $("#Delete").click(function(){
+                        $.ajax({
+                            url: `${person_1.Persons.absolute_url}`,
+                            type: 'DELETE',
+                            success: function (result) {
+                                // Do something with the result
+                                $("p").html(`<p>person Delete success</p>`);
+                            }
+                        });
+                    });
+                    $("#Close").click(function(){
+                        window.location.reload(true);
+                    });
+                  });
+                  $("#ed1").click(function(){
+                    $('#modal_person_form').form_person_modal0(person_1);
+                    $("#Delete").hide();
+                });
+                return this;
+              }
+              $.fn.form_person_modal1 = function(person_1){
+                  this.html(`<div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Name</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="name" type="text" value="${person_1.Persons.name}" maxlength="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">Family</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="family"  type="text" value="${person_1.Persons.family}" maxlength="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">National_code</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="national_code"  type="text" value="${person_1.Persons.national_code}" maxlength="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">ID_number</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="id_number"  type="text" value="${person_1.Persons.id_number}" maxlength="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"> Birth_date</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="birth_date"  type="date" value="${person_1.Persons.birth_date}" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id= "save" type="button" class="btn btn-primary pull-right " style="margin: 30px;">Save Person</button>
+                `);
+                var dictionary = {};
+                $("#save").click(function(){
+                    dictionary["name"] = $("#name").val();
+                    dictionary["family"] = $("#family").val();
+                    dictionary["national_code"] = $("#national_code").val();
+                    dictionary["id_number"] = $("#id_number").val();
+                    dictionary["birth_date"] = $("#birth_date").val();
+                    dictionary["phones"] = '';
+                    $.ajax({
+                        url: person_1.absolute_url+'/',
+                        type: 'PATCH',
+                        data:dictionary,
+                        success: function (result) {
+                            // Do something with the result
+                            $("p").html(`<p>person Edit success</p>`);
+                        }
+                    });
+                });
+                return this;
+              }
+              $.fn.region_state = function(state) {
+                for(region of state){
+                  }
+                (function() {
+                    var elm = document.getElementById('Person_region_state'), 
+                    df = document.createDocumentFragment(); 
+                    for (var i = 0; i < state.length; i++) { 
+                        var option = document.createElement('option'); 
+                        option.value = state[i].id; // set the value property
+                        option.appendChild(document.createTextNode(state[i].state)); 
+                        df.appendChild(option); 
+                    }
+                    elm.appendChild(df);
+                }());
+                $('#Person_region_state').on('change', function () {
+                    //ways to retrieve selected option and text outside handler
+                     var s = this.value;//s var in State for set egion__state dictionary
+                     F_dictionary["Person__region__state"] = s;
+                    $("#id_Person__region__state").show();
+                    $("#Person_region_City").show();
+                    $("#Person_region_City").select2();
+                    url = "http://127.0.0.1:8000/api/v2/region/"+s+'/';
+                    $.get(url,  // url
+                    function (data, textStatus, jqXHR) {
+                        city = data.city; 
+                        (function() {
+                            var elm = document.getElementById('Person_region_City'), 
+                            df = document.createDocumentFragment(); 
+                            for (var i = 0; i < data.city.length; i++) { 
+                                var option = document.createElement('option'); 
+                                option.value = city[i].id; // set the value property
+                                option.appendChild(document.createTextNode(city[i].city)); 
+                                df.appendChild(option); 
+                        }
+                        elm.appendChild(df);}());
+                        $('#Person_region_City').on('change', function () {
+                            //ways to retrieve selected option and text outside handler
+                            var c = this.value;
+                            F_dictionary["Person__region"]= c;// c var in City for set region
+                          });
+                    });
+                });
+              }
+              
+
+
+    </script>
+</body>
+
+</html>

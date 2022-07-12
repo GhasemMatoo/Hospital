@@ -2,9 +2,9 @@
 import django
 django.setup()
 # import madel and library
-from hospital.models import Person, PatientStatus
+from hospital.models import Person, PatientStatus, State, City, Phone
 from faker import Faker
-from random import randint
+from random import randint, sample
 from datetime import datetime
 import pandas as pd
 ############################
@@ -74,7 +74,81 @@ def insert_patient_status():
         print("END_insert_patient_status")
 
 
+def insert_state_and_city():
+    df_states = pd.read_excel("CMN_PROVINCE.xlsx")
+    df_cities = pd.read_excel("CMN_CITY.xlsx")
+    cities_list = []
+    states_list = []
+    for i in range(len(df_states)):
+        number = int(df_states.loc[i]['ID'])
+        state = df_states.loc[i]['PROVINCE_NAME']
+        states = State(id=number, state=state)
+        states_list.append(states)
+    print("start to db")
+    State.objects.bulk_create(states_list)
+    print("END_insert_data")
+    for i in range(len(df_cities)):
+        city_name = df_cities.loc[i]['CITY_NAME']
+        state_id = int(df_cities.loc[i]['PROVINCE_ID'])
+        if state_id != 98:
+            city = City(city=city_name, state_id=state_id)
+            cities_list.append(city)
+    print("start to db")
+    City.objects.bulk_create(cities_list)
+    print("END_insert_data")
+
+
+def inset_phone():
+    adad = (650870 * 2)
+    rang = int(adad / 100)
+    step = rang
+    start = 1
+    phone_numbers = sample(range(9110000000, 9119999999), adad)
+    phone_numbers.sort()
+    for _ in range(1, 101):
+        phon_list = []
+        for i in range(start, rang):
+            if i >= adad:
+                break
+            phone_number = '0' + str(phone_numbers[i])
+            person = randint(1000, 650870)
+            phone = Phone(phone_number=phone_number, Person_id=person)
+            phon_list.append(phone)
+        if _ < 101:
+            print("step in work : %{}".format(_))
+        start = rang
+        rang = rang + step
+        print("start to db")
+        Phone.objects.bulk_create(phon_list)
+        print("END_insert_data")
+
+def insert_address_person():
+    adad = (650870 * 2)
+    rang = int(adad / 100)
+    step = rang
+    start = 1
+    for _ in range(1, 101):
+        persons_list = []
+        for i in range(start, rang):
+            if i >= adad:
+                break
+            region = randint(14739, 22039)
+            person = Person(id=i, region_id=region)
+            persons_list.append(person)
+        if _ < 101:
+            print("step in work : %{}".format(_))
+        start = rang
+        rang = rang + step
+        print("start to db")
+        Person.objects.bulk_update(persons_list, ['region_id'])
+        print("END_insert_data")
+
+
+
 if __name__ == '__main__':
-    insert_patient_status(),
+    # insert_address_person(),
+    # inset_phone()
+    # insert_state_and_city(),
+    # insert_patient_status(),
     # insert_person(),
 

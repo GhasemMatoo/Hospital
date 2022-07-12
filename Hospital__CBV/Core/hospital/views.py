@@ -6,7 +6,6 @@ from django.contrib import messages
 from .models import Person, Phone, PatientStatus
 from .forms import PersonForm, PhoneForm
 from django.db import transaction
-from itertools import chain
 import pandas as pd
 # Create your views here.
 
