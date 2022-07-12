@@ -18,7 +18,7 @@ class Person(MainModel):
     national_code = models.CharField(max_length=11, unique=True)
     id_number = models.CharField(max_length=30, null=True, blank=True)
     birth_date = models.DateField()
-    region = models.ForeignKey('State', on_delete=models.CASCADE, null=True, blank=True)
+    region = models.ForeignKey('City', on_delete=models.CASCADE, null=True, blank=True, related_name='cities')
 
     def __str__(self):
         return f"{self.name} {self.family}"
@@ -49,7 +49,7 @@ class PatientStatus(MainModel):
 
 class State(MainModel):
 
-    state = models.CharField(max_length=20)
+    state = models.CharField(max_length=50)
 
     def __str__(self):
         return self.state
@@ -57,8 +57,8 @@ class State(MainModel):
 
 class City(MainModel):
 
-    city = models.CharField(max_length=20)
-    state = models.ForeignKey('State', on_delete=models.CASCADE)
+    city = models.CharField(max_length=50)
+    state = models.ForeignKey('State', on_delete=models.CASCADE, related_name='stat_city')
 
     def __str__(self):
         return self.city

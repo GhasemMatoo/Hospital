@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from hospital.models import Person, Phone, PatientStatus
+from hospital.models import Person, Phone, PatientStatus, City, State
 
 
 class PhoneSerializer(serializers.ModelSerializer):
@@ -8,13 +8,38 @@ class PhoneSerializer(serializers.ModelSerializer):
         fields = ['id', 'phone_number']
 
 
+class CitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = City
+        fields = ['id', 'city', 'state']
+
+
+class StateSerializer(serializers.ModelSerializer):
+    city = CitySerializer(source='stat_city', many=True, read_only=True)
+
+    class Meta:
+        model = State
+        fields = ['id', 'state', 'city']
+
+    def to_representation(self, instance):
+        # Cut in absolute_url to Show on object
+        request = self.context.get('request')
+        representation = super().to_representation(instance)
+        if not request.parser_context.get('kwargs'):
+            representation.pop('city')
+        return representation
+
+
 class PersonSerializer(serializers.ModelSerializer):
     phones = PhoneSerializer(source='Person', many=True, read_only=True)
+    region = CitySerializer()
     absolute_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Person
-        fields = ['id', 'absolute_url', 'name', 'family', 'national_code', 'id_number', 'birth_date', 'phones']
+        fields = ['id', 'absolute_url', 'name', 'family', 'national_code', 'id_number',
+                  'birth_date', 'region', 'phones']
 
     def get_absolute_url(self, obj):
         # Create urls py object
@@ -46,7 +71,7 @@ class PersonSerializer(serializers.ModelSerializer):
 
 
 class PatientStatusSerializer(serializers.ModelSerializer):
-    Persons = PersonSerializer(source='Person')
+    Persons = PersonSerializer(source='Person', read_only=True)
     absolute_url = serializers.SerializerMethodField()
 
     class Meta:
